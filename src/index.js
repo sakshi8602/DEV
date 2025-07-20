@@ -1,30 +1,23 @@
 const express = require("express");
+
 const app = express();
 
-// app/use("/route", rH, rH2, rH3, rH4, rH5, rH6 )
-app.use(
-  "/user",
-  [
-    (req, res, next) => {
-      console.log("Handling the route user!!");
-      // res.send("Response!!");
-      next();
-    },
-    (req, res, next) => {
-      console.log("Handling the route user 2!!");
-      // res.send("2nd Response!!");
-      next();
-    },
-  ],
-  (req, res, next) => {
-    console.log("Handling the route user 3!!");
-    // res.send("2nd Response!!");
-    next();
-  },
-  (req, res, next) => {
-    console.log("Handling the route user 4!!");
-    // res.send("2nd Response!!");
-    next();
+const {adminAuth, userAuth} = require("./middlewares/auth");
+
+app.use("/admin", adminAuth);
+app.use("/user", userAuth);
+
+app.get("/user", userAuth, (req, res) => {
+  res.send("user data sent");
+  }
+);
+app.get("/admin/getAllData", (req, res) => {
+  res.send("all data sent");
+  }
+);
+app.get("/admin/deleteUser", (req, res) => {
+  // logic of fetching all data
+    res.send("Delete a user");
   }
 );
 
